@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIBRING-CLEVER | Libros electrónicos</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f4f5f7;
+    color:#222;
+}
+
+header{
+    background:#111827;
+    color:white;
+    padding:18px 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:15px;
+    position:sticky;
+    top:0;
+    z-index:20;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:bold;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin:0 8px;
+}
+
+nav a:hover{
+    color:#60a5fa;
+}
+
+.hero{
+    background-image: url("n.jpg");
+    color:white;
+    text-align:center;
+    padding:65px 20px;
+}
+
+.hero h1{
+    font-size:42px;
+    margin-bottom:12px;
+}
+
+.hero p{
+    font-size:18px;
+}
+
+.anuncio{
+    width:90%;
+    max-width:1100px;
+    margin:30px auto;
+    background:white;
+    padding:25px;
+    border-left:6px solid #4f46e5;
+    border-radius:12px;
+    box-shadow:0 3px 12px #0002;
+}
+
+.anuncio h2{
+    color:#3730a3;
+    margin-bottom:10px;
+}
+
+.anuncio p{
+    color:#555;
+    line-height:1.6;
+}
+
+.container{
+    width:90%;
+    max-width:1200px;
+    margin:30px auto;
+}
+
+.section-title{
+    margin:35px 0 18px;
+}
+
+.search{
+    display:flex;
+    gap:10px;
+    margin:30px 0;
+}
+
+.search input{
+    flex:1;
+    padding:14px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:16px;
+}
+
+.btn{
+    background:#4f46e5;
+    color:white;
+    padding:11px 17px;
+    border:0;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.btn:hover{
+    background:#3730a3;
+}
+
+.genre-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:15px;
+}
+
+.genre{
+    background:white;
+    padding:22px 10px;
+    text-align:center;
+    border-radius:12px;
+    box-shadow:0 3px 10px #0002;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.genre:hover{
+    transform:translateY(-4px);
+    background:#eef2ff;
+}
+
+.genre span{
+    display:block;
+    font-size:35px;
+    margin-bottom:8px;
+}
+
+.books{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+    gap:20px;
+}
+
+.book{
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 3px 12px #0002;
+    transition:.2s;
+}
+
+.book:hover{
+    transform:translateY(-4px);
+}
+
+.cover{
+    width:100%;
+    height:280px;
+    object-fit:cover;
+    display:block;
+    background:#ddd;
+}
+
+.info{
+    padding:16px;
+}
+
+.info h3{
+    margin-bottom:8px;
+}
+
+.author{
+    color:#777;
+    margin-bottom:7px;
+}
+
+.genre-name{
+    color:#555;
+    font-size:14px;
+}
+
+.price{
+    color:#777;
+    font-weight:bold;
+    font-size:19px;
+    margin:12px 0;
+}
+
+.actions{
+    display:flex;
+    gap:7px;
+}
+
+.actions button{
+    flex:1;
+}
+
+.details-btn{
+    background:#e5e7eb;
+    padding:10px;
+    border-radius:7px;
+    cursor:pointer;
+}
+
+.cart{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    background:#111827;
+    color:white;
+    padding:15px 20px;
+    border-radius:50px;
+    z-index:30;
+    box-shadow:0 4px 15px #0005;
+    cursor:pointer;
+}
+
+.cart span{
+    background:#ef4444;
+    padding:3px 8px;
+    border-radius:20px;
+}
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:#0009;
+    z-index:50;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal-box{
+    background:white;
+    width:100%;
+    max-width:600px;
+    max-height:90vh;
+    overflow:auto;
+    padding:25px;
+    border-radius:14px;
+}
+
+.close{
+    float:right;
+    font-size:28px;
+    cursor:pointer;
+}
+
+.detail-img{
+    width:180px;
+    height:270px;
+    object-fit:cover;
+    display:block;
+    margin:10px auto 20px;
+    border-radius:8px;
+}
+
+.detail-description{
+    line-height:1.6;
+    margin:15px 0;
+}
+
+.cart-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    padding:14px 0;
+    border-bottom:1px solid #ddd;
+}
+
+.qty{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.qty button{
+    background:#ddd;
+    border:0;
+    padding:5px 9px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.remove{
+    background:#ef4444;
+    color:white;
+    padding:7px 10px;
+    border:0;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.total{
+    font-size:22px;
+    font-weight:bold;
+    margin:20px 0;
+}
+
+form input,
+form select,
+form textarea{
+    width:100%;
+    padding:12px;
+    margin:7px 0 13px;
+    border:1px solid #ccc;
+    border-radius:7px;
+}
+
+form textarea{
+    height:100px;
+    resize:none;
+}
+
+.comment-box{
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    margin-top:45px;
+}
+
+.comment{
+    padding:15px 0;
+    border-bottom:1px solid #ddd;
+}
+
+.stars{
+    color:#f59e0b;
+}
+
+footer{
+    background:#111827;
+    color:white;
+    text-align:center;
+    padding:30px;
+    margin-top:50px;
+}
+
+.no-results{
+    grid-column:1/-1;
+    background:white;
+    padding:40px;
+    text-align:center;
+    border-radius:12px;
+}
+
+@media(max-width:600px){
+
+    header{
+        flex-direction:column;
+    }
+
+    .hero h1{
+        font-size:31px;
+    }
+
+    .search{
+        flex-direction:column;
+    }
+
+    .actions{
+        flex-direction:column;
+    }
+
+    .cart-row{
+        flex-wrap:wrap;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">📚 LIBRING-C</div>
+
+<nav>
+<a href="#inicio">Inicio</a>
+<a href="#generos">Géneros</a>
+<a href="#catalogo">Libros</a>
+<a href="#comentarios">Comentarios</a>
+</nav>
+
+</header>
+
+<section class="hero" id="inicio">
+
+<h1>📚 LIBRING-C</h1>
+
+<p>Tu biblioteca digital, siempre contigo.</p>
+
+</section>
+
+<section class="anuncio">
+
+<h2>Descubre una nueva forma de leer</h2>
+
+<p>
+En <b>LIBRING-C</b> encontrarás una selección de libros reconocidos
+de diferentes géneros. Busca tus títulos favoritos, consulta información
+sobre cada obra, agrega libros a tu carrito y realiza una compra de
+demostración desde cualquier dispositivo.
+</p>
+
+</section>
+
+<div class="container">
+
+<h2 id="generos" class="section-title">
+📂 Explora por género
+</h2>
+
+<div class="genre-grid">
+
+<div class="genre" onclick="mostrarGenero('Novela')">
+<span><img src="nove.jpg" width="100" height="100"></span>Novela
+</div>
+
+<div class="genre" onclick="mostrarGenero('Romance')">
+<span><img src="romance.jpg" width="100" height="100"></span>Romance
+</div>
+
+<div class="genre" onclick="mostrarGenero('Misterio')">
+<span><img src="misterio.jpg" width="100" height="100"></span>Misterio
+</div>
+
+<div class="genre" onclick="mostrarGenero('Ciencia ficción')">
+<span><img src="ficcion.jpg" width="100" height="100"></span>Ciencia ficción
+</div>
+
+<div class="genre" onclick="mostrarGenero('Fantasía')">
+<span><img src="fantasia.jpg" width="100" height="100"></span>Fantasía
+</div>
+
+<div class="genre" onclick="mostrarGenero('Historia')">
+<span><img src="historia.jpg" width="100" height="100"></span>Historia
+</div>
+
+<div class="genre" onclick="mostrarGenero('Educación')">
+<span><img src="educacion.jpg" width="100" height="100"></span>Educación
+</div>
+
+<div class="genre" onclick="mostrarGenero('Terror')">
+<span><img src="terror.jpg" width="100" height="100"></span>Terror
+</div>
+
+</div>
+
+<h2 class="section-title">
+🔎 Buscar libros
+</h2>
+
+<div class="search">
+
+<input
+id="busqueda"
+type="text"
+placeholder="Busca por título, autor o género..."
+autocomplete="off"
+>
+
+<button class="btn" onclick="buscar()">
+Buscar
+</button>
+
+</div>
+
+<h2 id="tituloCatalogo" class="section-title">
+📚 Todos los libros
+</h2>
+
+<div class="books" id="catalogo"></div>
+
+<section class="comment-box" id="comentarios">
+
+<h2>⭐ Comentarios de lectores</h2>
+
+<div id="comentariosLista">
+
+<div class="comment">
+<b>María</b>
+<div class="stars">★★★★★</div>
+<p>Me encanta la variedad de libros.</p>
+</div>
+
+<div class="comment">
+<b>Carlos</b>
+<div class="stars">★★★★☆</div>
+<p>Es muy fácil encontrar los libros.</p>
+</div>
+
+</div>
+
+<h3 style="margin-top:25px">
+Deja tu comentario
+</h3>
+
+<form onsubmit="agregarComentario(event)">
+
+<input id="nombre" placeholder="Tu nombre" required>
+
+<select id="estrellas" required>
+
+<option value="">
+Calificación
+</option>
+
+<option>★★★★★</option>
+<option>★★★★☆</option>
+<option>★★★☆☆</option>
+<option>★★☆☆☆</option>
+<option>★☆☆☆☆</option>
+
+</select>
+
+<textarea
+id="textoComentario"
+placeholder="Escribe tu comentario..."
+required>
+</textarea>
+
+<button class="btn">
+Publicar comentario
+</button>
+
+</form>
+
+</section>
+
+</div>
+
+<div class="cart" onclick="abrirCarrito()">
+
+🛒 Carrito
+
+<span id="cantidadCarrito">0</span>
+
+</div>
+
+<!-- DETALLE -->
+
+<div class="modal" id="detalleModal">
+
+<div class="modal-box">
+
+<span class="close"
+onclick="cerrar('detalleModal')">
+×
+</span>
+
+<div id="detalleContenido"></div>
+
+</div>
+
+</div>
+
+<!-- CARRITO -->
+
+<div class="modal" id="carritoModal">
+
+<div class="modal-box">
+
+<span class="close"
+onclick="cerrar('carritoModal')">
+×
+</span>
+
+<h2>🛒 Mi carrito</h2>
+
+<div id="carritoContenido"></div>
+
+<div class="total">
+
+Total: Bs
+<span id="total">0.00</span>
+
+</div>
+
+<button class="btn" onclick="abrirPago()">
+💳 Continuar al pago
+</button>
+
+</div>
+
+</div>
+
+<!-- PAGO -->
+
+<div class="modal" id="pagoModal">
+
+<div class="modal-box">
+
+<span class="close"
+onclick="cerrar('pagoModal')">
+×
+</span>
+
+<h2>💳 Finalizar compra</h2>
+
+<form onsubmit="comprar(event)">
+
+<label>Nombre completo</label>
+<input required>
+
+<label>Correo electrónico</label>
+<input type="email" required>
+
+<label>Método de pago</label>
+
+<select required>
+
+<option value="">Seleccionar</option>
+<option>Tarjeta</option>
+<option>QR</option>
+<option>PayPal</option>
+
+</select>
+
+<label>Número o referencia de pago</label>
+<input required>
+
+<button class="btn">
+Confirmar compra
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+<footer>
+
+<h3>📚LIBRING-C</h3>
+
+<p>Tu tienda de libros electrónicos.</p>
+
+<p>© 2026LIBRING-C</p>
+
+</footer>
+
+<script>
+
+/* =========================
+   CATÁLOGO
+========================= */
+
+const libros = [
+/* =========================
+   NOVELA
+========================= */
+{
+    id: 1,
+    titulo: "Marianela",
+    autor: "Benito Pérez Galdós",
+    genero: "Novela",
+    precio: 15,
+    imagen: "Marianela.jpg",
+    leer: "libros/mari.pdf"
+},
+{
+    id: 2,
+    titulo: "Doña Perfecta",
+    autor: "Benito Pérez Galdós",
+    genero: "Novela",
+    precio: 15,
+    imagen: "perfecta.jpg",
+    leer: "https://www.gutenberg.org/ebooks/15725"
+},
+{
+    id: 3,
+    titulo: "Don Quijote de la Mancha",
+    autor: "Miguel de Cervantes",
+    genero: "Novela",
+    precio: 20,
+    imagen: "quijote.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/2000/pg2000-images.html"
+},
+{
+    id: 4,
+    titulo: "Moby Dick",
+    autor: "Herman Melville",
+    genero: "Novela",
+    precio: 18,
+    imagen: "movy.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/2701/pg2701-images.html"
+},
+{
+    id: 5,
+    titulo: "Oliver Twist",
+    autor: "Charles Dickens",
+    genero: "Novela",
+    precio: 18,
+    imagen: "oliver.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/730/pg730-images.html"
+},
+{
+    id: 6,
+    titulo: "La isla del tesoro",
+    autor: "Robert Louis Stevenson",
+    genero: "Novela",
+    precio: 15,
+    imagen: "tesoro.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/120/pg120-images.html"
+},
+
+/* =========================
+   ROMANCE
+========================= */
+{
+    id: 7,
+    titulo: "Orgullo y prejuicio",
+    autor: "Jane Austen",
+    genero: "Romance",
+    precio: 15,
+    imagen: "orgullo.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/1342/pg1342-images.html"
+},
+{
+    id: 8,
+    titulo: "Jane Eyre",
+    autor: "Charlotte Brontë",
+    genero: "Romance",
+    precio: 18,
+    imagen: "jana.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/1260/pg1260-images.html"
+},
+{
+    id: 9,
+    titulo: "Romeo y Julieta",
+    autor: "William Shakespeare",
+    genero: "Romance",
+    precio: 12,
+    imagen: "romeo.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/1513/pg1513-images.html"
+},
+{
+    id: 10,
+    titulo: "Cumbres borrascosas",
+    autor: "Emily Brontë",
+    genero: "Romance",
+    precio: 18,
+    imagen: "cumbre.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/768/pg768-images.html"
+},
+{
+    id: 11,
+    titulo: "Emma",
+    autor: "Jane Austen",
+    genero: "Romance",
+    precio: 16,
+    imagen: "emma.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/158/pg158-images.html"
+},
+{
+    id: 12,
+    titulo: "Persuasión",
+    autor: "Jane Austen",
+    genero: "Romance",
+    precio: 15,
+    imagen: "oxo.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/105/pg105-images.html"
+},
+
+/* =========================
+   MISTERIO
+========================= */
+{
+    id: 13,
+    titulo: "Las aventuras de Sherlock Holmes",
+    autor: "Arthur Conan Doyle",
+    genero: "Misterio",
+    precio: 18,
+    imagen: "aventura.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/1661/pg1661-images.html"
+},
+{
+    id: 14,
+    titulo: "Estudio en escarlata",
+    autor: "Arthur Conan Doyle",
+    genero: "Misterio",
+    precio: 15,
+    imagen: "homes.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/244/pg244-images.html"
+},
+{
+    id: 15,
+    titulo: "El signo de los cuatro",
+    autor: "Arthur Conan Doyle",
+    genero: "Misterio",
+    precio: 15,
+    imagen: "cuatro.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/2097/pg2097-images.html"
+},
+{
+    id: 16,
+    titulo: "El sabueso de los Baskerville",
+    autor: "Arthur Conan Doyle",
+    genero: "Misterio",
+    precio: 18,
+    imagen: "sabueso.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/2852/pg2852-images.html"
+},
+{
+    id: 17,
+    titulo: "El escarabajo de oro",
+    autor: "Edgar Allan Poe",
+    genero: "Misterio",
+    precio: 12,
+    imagen: "oro.jpg",
+    leer: "https://www.gutenberg.org/ebooks/2147"
+},
+{
+    id: 18,
+    titulo: "El caso Leavenworth",
+    autor: "Anna Katharine Green",
+    genero: "Misterio",
+    precio: 18,
+    imagen: "caso.jpg",
+    leer: "https://www.gutenberg.org/ebooks/304"
+},
+
+/* =========================
+   CIENCIA FICCIÓN
+========================= */
+{
+    id: 19,
+    titulo: "La máquina del tiempo",
+    autor: "H. G. Wells",
+    genero: "Ciencia ficción",
+    precio: 15,
+    imagen: "tiempo.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/35/pg35-images.html"
+},
+{
+    id: 20,
+    titulo: "La guerra de los mundos",
+    autor: "H. G. Wells",
+    genero: "Ciencia ficción",
+    precio: 18,
+    imagen: "mundo.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/36/pg36-images.html"
+},
+{
+    id: 21,
+    titulo: "El hombre invisible",
+    autor: "H. G. Wells",
+    genero: "Ciencia ficción",
+    precio: 15,
+    imagen: "hombre.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/5230/pg5230-images.html"
+},
+{
+    id: 22,
+    titulo: "De la Tierra a la Luna",
+    autor: "Julio Verne",
+    genero: "Ciencia ficción",
+    precio: 18,
+    imagen: "luna.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/83/pg83-images.html"
+},
+{
+    id: 23,
+    titulo: "Veinte mil leguas de viaje submarino",
+    autor: "Julio Verne",
+    genero: "Ciencia ficción",
+    precio: 20,
+    imagen: "mil.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/164/pg164-images.html"
+},
+{
+    id: 24,
+    titulo: "Planilandia",
+    autor: "Edwin A. Abbott",
+    genero: "Ciencia ficción",
+    precio: 15,
+    imagen: "plana.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/201/pg201-images.html"
+},
+
+/* =========================
+   FANTASÍA
+========================= */
+{
+    id: 25,
+    titulo: "Alicia en el país de las maravillas",
+    autor: "Lewis Carroll",
+    genero: "Fantasía",
+    precio: 15,
+    imagen: "https://covers.openlibrary.org/b/title/Alices-Adventures-in-Wonderland-L.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/11/pg11-images.html"
+},
+{
+    id: 26,
+    titulo: "El maravilloso mago de Oz",
+    autor: "L. Frank Baum",
+    genero: "Fantasía",
+    precio: 15,
+    imagen: "https://covers.openlibrary.org/b/title/The-Wonderful-Wizard-of-Oz-L.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/55/pg55-images.html"
+},
+{
+    id: 27,
+    titulo: "Peter Pan",
+    autor: "J. M. Barrie",
+    genero: "Fantasía",
+    precio: 15,
+    imagen: "https://covers.openlibrary.org/b/title/Peter-Pan-L.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/16/pg16-images.html"
+},
+{
+    id: 28,
+    titulo: "El jardín secreto",
+    autor: "Frances Hodgson Burnett",
+    genero: "Fantasía",
+    precio: 18,
+    imagen: "https://covers.openlibrary.org/b/title/The-Secret-Garden-L.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/113/pg113-images.html"
+},
+{
+    id: 29,
+    titulo: "Pinocho",
+    autor: "Carlo Collodi",
+    genero: "Fantasía",
+    precio: 15,
+    imagen: "https://covers.openlibrary.org/b/title/The-Adventures-of-Pinocchio-L.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/500/pg500-images.html"
+},
+{
+    id: 30,
+    titulo: "El viento en los sauces",
+    autor: "Kenneth Grahame",
+    genero: "Fantasía",
+    precio: 18,
+    imagen: "https://covers.openlibrary.org/b/title/The-Wind-in-the-Willows-L.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/289/pg289-images.html"
+},
+
+/* =========================
+   HISTORIA
+========================= */
+{
+    id: 31,
+    titulo: "Los nueve libros de la Historia",
+    autor: "Heródoto",
+    genero: "Historia",
+    precio: 20,
+    imagen: "https://covers.openlibrary.org/b/title/The-History-of-Herodotus-L.jpg",
+    leer: "https://www.gutenberg.org/ebooks/2707"
+},
+{
+    id: 32,
+    titulo: "Historia de la guerra del Peloponeso",
+    autor: "Tucídides",
+    genero: "Historia",
+    precio: 20,
+    imagen: "https://covers.openlibrary.org/b/title/History-of-the-Peloponnesian-War-L.jpg",
+    leer: "https://www.gutenberg.org/ebooks/7142"
+},
+{
+    id: 33,
+    titulo: "Vidas paralelas",
+    autor: "Plutarco",
+    genero: "Historia",
+    precio: 20,
+    imagen: "https://covers.openlibrary.org/b/title/Plutarchs-Lives-L.jpg",
+    leer: "https://www.gutenberg.org/ebooks/674"
+},
+{
+    id: 34,
+    titulo: "El príncipe",
+    autor: "Nicolás Maquiavelo",
+    genero: "Historia",
+    precio: 15,
+    imagen: "https://covers.openlibrary.org/b/title/The-Prince-L.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/1232/pg1232-images.html"
+},
+{
+    id: 35,
+    titulo: "El arte de la guerra",
+    autor: "Sun Tzu",
+    genero: "Historia",
+    precio: 15,
+    imagen: "https://covers.openlibrary.org/b/title/The-Art-of-War-L.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/132/pg132-images.html"
+},
+{
+    id: 36,
+    titulo: "Narración de la vida de Frederick Douglass",
+    autor: "Frederick Douglass",
+    genero: "Historia",
+    precio: 15,
+    imagen: "https://covers.openlibrary.org/b/title/Narrative-of-the-Life-of-Frederick-Douglass-L.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/23/pg23-images.html"
+},
+
+/* =========================
+   EDUCACIÓN
+========================= */
+{
+    id: 37,
+    titulo: "The Elements of Style",
+    autor: "William Strunk Jr.",
+    genero: "Educación",
+    precio: 12,
+    imagen: "https://covers.openlibrary.org/b/title/The-Elements-of-Style-L.jpg",
+    leer: "https://www.gutenberg.org/ebooks/37134"
+},
+{
+    id: 38,
+    titulo: "El arte de hablar en público",
+    autor: "Dale Carnegie",
+    genero: "Educación",
+    precio: 18,
+    imagen: "https://covers.openlibrary.org/b/title/The-Art-of-Public-Speaking-L.jpg",
+    leer: "https://www.gutenberg.org/ebooks/16317"
+},
+{
+    id: 39,
+    titulo: "La historia de mi vida",
+    autor: "Helen Keller",
+    genero: "Educación",
+    precio: 15,
+    imagen: "https://covers.openlibrary.org/b/title/The-Story-of-My-Life-L.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/2397/pg2397-images.html"
+},
+{
+    id: 40,
+    titulo: "Autobiografía de Benjamin Franklin",
+    autor: "Benjamin Franklin",
+    genero: "Educación",
+    precio: 15,
+    imagen: "https://covers.openlibrary.org/b/title/The-Autobiography-of-Benjamin-Franklin-L.jpg",
+    leer: "https://www.gutenberg.org/ebooks/20203"
+},
+{
+    id: 41,
+    titulo: "Self-Help",
+    autor: "Samuel Smiles",
+    genero: "Educación",
+    precio: 18,
+    imagen: "https://covers.openlibrary.org/b/title/Self-Help-L.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/935/pg935-images.html"
+},
+{
+    id: 42,
+    titulo: "El origen de las especies",
+    autor: "Charles Darwin",
+    genero: "Educación",
+    precio: 20,
+    imagen: "https://covers.openlibrary.org/b/title/On-the-Origin-of-Species-L.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/1228/pg1228-images.html"
+},
+
+/* =========================
+   TERROR
+========================= */
+{
+    id: 43,
+    titulo: "Drácula",
+    autor: "Bram Stoker",
+    genero: "Terror",
+    precio: 18,
+    imagen: "https://covers.openlibrary.org/b/title/Dracula-L.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/345/pg345-images.html"
+},
+{
+    id: 44,
+    titulo: "Frankenstein",
+    autor: "Mary Shelley",
+    genero: "Terror",
+    precio: 18,
+    imagen: "https://covers.openlibrary.org/b/title/Frankenstein-L.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/84/pg84-images.html"
+},
+{
+    id: 45,
+    titulo: "El extraño caso del Dr. Jekyll y Mr. Hyde",
+    autor: "Robert Louis Stevenson",
+    genero: "Terror",
+    precio: 15,
+    imagen: "https://covers.openlibrary.org/b/title/Strange-Case-of-Dr-Jekyll-and-Mr-Hyde-L.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/43/pg43-images.html"
+},
+{
+    id: 46,
+    titulo: "El retrato de Dorian Gray",
+    autor: "Oscar Wilde",
+    genero: "Terror",
+    precio: 18,
+    imagen: "https://covers.openlibrary.org/b/title/The-Picture-of-Dorian-Gray-L.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/174/pg174-images.html"
+},
+{
+    id: 47,
+    titulo: "Carmilla",
+    autor: "Sheridan Le Fanu",
+    genero: "Terror",
+    precio: 12,
+    imagen: "https://covers.openlibrary.org/b/title/Carmilla-L.jpg",
+    leer: "https://www.gutenberg.org/ebooks/10007"
+},
+{
+    id: 48,
+    titulo: "Otra vuelta de tuerca",
+    autor: "Henry James",
+    genero: "Terror",
+    precio: 15,
+    imagen: "https://covers.openlibrary.org/b/title/The-Turn-of-the-Screw-L.jpg",
+    leer: "https://www.gutenberg.org/cache/epub/209/pg209-images.html"
+}
+
+
+];
+
+/* =========================
+   CARRITO
+========================= */
+
+let carrito=[];
+
+/* MOSTRAR LIBROS */
+
+function mostrarLibros(lista=libros){
+
+const cont=document.getElementById("catalogo");
+
+cont.innerHTML="";
+
+if(lista.length===0){
+
+cont.innerHTML=`
+
+<div class="no-results">
+
+<h3>😕 No encontramos ese libro</h3>
+
+<p style="margin-top:10px">
+Prueba con otro título, autor o género.
+</p>
+
+</div>
+
+`;
+
+return;
+
+}
+
+lista.forEach(libro=>{
+
+cont.innerHTML+=`
+
+<div class="book">
+
+<img
+class="cover"
+src="${libro.imagen}"
+alt="Portada de ${libro.titulo}"
+onerror="this.src='https://via.placeholder.com/300x450?text=Libro'">
+
+<div class="info">
+
+<h3>${libro.titulo}</h3>
+
+<p class="author">
+${libro.autor}
+</p>
+
+<p class="genre-name">
+${libro.genero}
+</p>
+
+
+<p class="price">
+Bs ${libro.precio.toFixed(2)}
+</p>
+
+<div class="actions">
+
+<button
+class="details-btn"
+onclick="verLibro(${libro.id})">
+
+📖 Ver
+
+</button>
+
+<button
+class="btn"
+onclick="agregar(${libro.id})">
+
+🛒 Agregar
+
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+/* =========================
+   GENEROS
+========================= */
+
+function mostrarGenero(genero){
+
+const lista=libros.filter(
+libro=>libro.genero===genero
+);
+
+document.getElementById("tituloCatalogo")
+.textContent="📚 Libros de "+genero;
+
+document.getElementById("busqueda").value="";
+
+mostrarLibros(lista);
+
+document.getElementById("catalogo")
+.scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+/* =========================
+   BUSCADOR
+========================= */
+
+function buscar(){
+
+const texto=document
+.getElementById("busqueda")
+.value
+.toLowerCase()
+.trim();
+
+if(texto===""){
+
+document.getElementById("tituloCatalogo")
+.textContent="📚 Todos los libros";
+
+mostrarLibros();
+
+return;
+
+}
+
+const lista=libros.filter(libro=>
+
+libro.titulo
+.toLowerCase()
+.includes(texto)
+
+||
+
+libro.autor
+.toLowerCase()
+.includes(texto)
+
+||
+
+libro.genero
+.toLowerCase()
+.includes(texto)
+
+);
+
+document.getElementById("tituloCatalogo")
+.textContent="🔎 Resultados: "+texto;
+
+mostrarLibros(lista);
+
+}
+
+/* BUSCAR MIENTRAS ESCRIBES */
+
+document
+.getElementById("busqueda")
+.addEventListener("input",buscar);
+
+/* =========================
+   DETALLE
+========================= */
+function verLibro(id) {
+
+    const libro = libros.find(function(libro) {
+        return libro.id === id;
+    });
+
+    if (!libro) {
+        window.open(libro.leer,"_blank");
+    }
+
+    if (!libro.leer || libro.leer.trim() === "") {
+        alert("Este libro todavía no tiene un enlace de lectura.");
+        return;
+    }
+
+    // Abrir el libro o página oficial en una nueva pestaña
+    const ventana = window.open(libro.leer, "_blank");
+
+    if (!ventana) {
+        alert("El navegador bloqueó la nueva pestaña. Permite ventanas emergentes para esta página.");
+    }
+}
+
+/* =========================
+   AGREGAR AL CARRITO
+========================= */
+
+function agregar(id){
+
+const libro=libros.find(
+libro=>libro.id===id
+);
+
+const existente=carrito.find(
+libro=>libro.id===id
+);
+
+if(existente){
+
+existente.cantidad++;
+
+}else{
+
+carrito.push({
+...libro,
+cantidad:1
+});
+
+}
+
+actualizarCarrito();
+
+}
+
+/* =========================
+   ACTUALIZAR CARRITO
+========================= */
+
+function actualizarCarrito(){
+
+document.getElementById("cantidadCarrito")
+.textContent=
+carrito.reduce(
+(total,libro)=>total+libro.cantidad,
+0
+);
+
+const cont=
+document.getElementById("carritoContenido");
+
+if(carrito.length===0){
+
+cont.innerHTML=
+"<p>🛒 Tu carrito está vacío.</p>";
+
+document.getElementById("total")
+.textContent="0.00";
+
+return;
+
+}
+
+let total=0;
+
+cont.innerHTML="";
+
+carrito.forEach((libro,index)=>{
+
+total+=libro.precio*libro.cantidad;
+
+cont.innerHTML+=`
+
+<div class="cart-row">
+
+<div>
+
+<b>${libro.titulo}</b>
+
+<br>
+
+Bs ${libro.precio.toFixed(2)}
+
+</div>
+
+<div class="qty">
+
+<button
+onclick="cambiarCantidad(${index},-1)">
+−
+</button>
+
+<span>
+${libro.cantidad}
+</span>
+
+<button
+  class="details-btn"
+  onclick="verLibros( ${libro.id})">
+  ver
+  </button>
+  ;
+class="remove"
+onclick="eliminar(${index})">
+
+×
+
+</button>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("total")
+.textContent=total.toFixed(2);
+
+}
+
+/* CANTIDAD */
+
+function cambiarCantidad(index,cambio){
+
+carrito[index].cantidad+=cambio;
+
+if(carrito[index].cantidad<=0){
+
+carrito.splice(index,1);
+
+}
+
+actualizarCarrito();
+
+}
+
+/* ELIMINAR */
+
+function eliminar(index){
+
+carrito.splice(index,1);
+
+actualizarCarrito();
+
+}
+
+/* =========================
+   CARRITO
+========================= */
+
+function abrirCarrito(){
+
+actualizarCarrito();
+
+document.getElementById("carritoModal")
+.style.display="flex";
+
+}
+
+/* =========================
+   PAGO
+========================= */
+
+function abrirPago(){
+
+if(carrito.length===0){
+
+alert("🛒 Tu carrito está vacío.");
+
+return;
+
+}
+
+cerrar("carritoModal");
+
+document.getElementById("pagoModal")
+.style.display="flex";
+
+}
+
+function comprar(event){
+
+event.preventDefault();
+
+const codigo=
+"LM-"+Math.floor(
+100000+Math.random()*900000
+);
+
+alert(
+"✅ Compra realizada correctamente.\n\n"+
+"Código de compra: "+codigo+
+"\n\n"+
+"Este es un sistema de pago de demostración."
+);
+
+carrito=[];
+
+actualizarCarrito();
+
+cerrar("pagoModal");
+
+}
+
+/* =========================
+   CERRAR MODALES
+========================= */
+
+function cerrar(id){
+
+document.getElementById(id)
+.style.display="none";
+
+}
+
+/* =========================
+   COMENTARIOS
+========================= */
+
+function agregarComentario(event){
+
+event.preventDefault();
+
+const nombre=
+document.getElementById("nombre").value;
+
+const estrellas=
+document.getElementById("estrellas").value;
+
+const texto=
+document.getElementById("textoComentario").value;
+
+const div=
+document.createElement("div");
+
+div.className="comment";
+
+div.innerHTML=`
+
+<b>${nombre}</b>
+
+<div class="stars">
+${estrellas}
+</div>
+
+<p>
+${texto}
+</p>
+
+`;
+
+document.getElementById(
+"comentariosLista"
+).prepend(div);
+
+event.target.reset();
+
+alert("✅ Comentario publicado.");
+
+}
+
+/* CERRAR AL HACER CLIC AFUERA */
+
+window.onclick=function(event){
+
+[
+"detalleModal",
+"carritoModal",
+"pagoModal"
+].forEach(id=>{
+
+const modal=
+document.getElementById(id);
+
+if(event.target===modal){
+
+modal.style.display="none";
+
+}
+
+});
+
+};
+
+/* INICIAR */
+
+mostrarLibros();
+
+</script>
